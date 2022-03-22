@@ -4,9 +4,7 @@ import Footer from '../footer/footer';
 import Header from '../header/header';
 import './style.scss';
 
-type Props = {};
-
-const Layout = ({}: Props) => {
+const Layout = () => {
   return (
     <div className='container'>
       <Header />
