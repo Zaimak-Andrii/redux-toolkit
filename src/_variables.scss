@@ -1,0 +1,8 @@
+$color-link: white;
+$color-link-active: wheat;
+
+// Добавляем variables для использования в JS
+:root {
+  --color-link: #{$color-link};
+  --color-link-active: #{$color-link-active};
+}

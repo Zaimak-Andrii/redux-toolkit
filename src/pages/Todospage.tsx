@@ -1,7 +1,5 @@
 import React from 'react';
 
-type Props = {};
-
-export default function Todospage({}: Props) {
+export default function Todospage() {
   return <div>Todospage</div>;
 }

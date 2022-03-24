@@ -1,3 +1,10 @@
+@import './variables';
+
+//==========Reset==========
+//reset box-sizen to all elements
+* {
+  box-sizing: border-box;
+}
 // Reset ul styles
 ul {
   margin: 0;
@@ -8,7 +15,7 @@ ul {
 a {
   text-decoration: none;
 }
-
+//==========Styles==========
 html,
 body {
   width: 100%;

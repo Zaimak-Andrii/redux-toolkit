@@ -1,4 +1,5 @@
 @import '../../templates';
+@import '../../variables';
 
 $header-height: 50px;
 
@@ -32,12 +33,18 @@ a {
   display: inline-block;
   padding: 10px 20px;
   text-decoration: none;
-  color: white;
+  color: $color-link;
 
   cursor: pointer;
 
   &:hover {
+    text-decoration: underline;
     border-radius: 2px;
     background-color: rgba(0, 0, 0, 0.2);
   }
+}
+
+.active,
+.active-link {
+  color: $color-link-active;
 }
