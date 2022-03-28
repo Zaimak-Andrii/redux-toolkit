@@ -1,7 +1,23 @@
-ul {
-  display: block;
-}
+.todos {
+  display: flex;
+  flex-direction: column;
 
-.checked {
-  text-decoration: line-through;
+  width: 100%;
+  min-height: 100%;
+
+  & h1 {
+    margin: 0 auto;
+  }
+
+  & .pagination {
+    height: auto;
+    // Размещение пагинации внизу страницы
+    margin-top: auto;
+
+    justify-content: center;
+  }
+
+  & .checked {
+    text-decoration: line-through;
+  }
 }

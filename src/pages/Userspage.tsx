@@ -1,3 +1,4 @@
+import { LinearProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 interface IGeo {
@@ -54,7 +55,7 @@ export default function Userspage() {
   return (
     <div>
       <h1>Users list:</h1>
-      {isLoading ? <h1>Loading...</h1> : ''}
+      {isLoading ? <LinearProgress /> : ''}
       <ul>
         {usersList.map((user: IUser, index) => {
           return (
