@@ -5,7 +5,7 @@ import Homepage from './pages/Homepage';
 import Notfoundpage from './pages/Notfoundpage';
 import Photospage from './pages/Photospage';
 import Postspage from './pages/Postspage';
-import Todospage from './pages/Todospage';
+import Todospage from './pages/todo/Todospage';
 import Userspage from './pages/Userspage';
 
 function App() {
