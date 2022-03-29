@@ -1,4 +1,4 @@
-import { LinearProgress, Pagination, PaginationItem } from '@mui/material';
+import { LinearProgress } from '@mui/material';
 import axios from 'axios';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,7 +14,9 @@ export interface ITodo {
 }
 
 const Todospage: FunctionComponent = () => {
+  // Максивальное количество постов
   const MAX_TODOS_COUNT = 200;
+  // Лимит загрузки постов
   const TODOS_LIMIT = 20;
   // Получение параметров из строки запроса
   const pageParams = useParams();
