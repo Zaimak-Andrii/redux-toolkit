@@ -1,5 +1,6 @@
-import { Pagination } from '@mui/material';
+import { Pagination, PaginationItem } from '@mui/material';
 import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 
 type PaginationProps = {
   pagesCount: number;
@@ -9,7 +10,21 @@ type PaginationProps = {
 };
 
 const CustomPagination: FunctionComponent<PaginationProps> = ({ className, pagesCount, page, setPage, ...props }: PaginationProps) => {
-  return <Pagination className={className} count={pagesCount} page={page} onChange={(_, num) => setPage(num)} {...props} variant='outlined' shape='rounded' />;
+  const changeHandler = (_: React.ChangeEvent<unknown>, num: number) => setPage(num);
+
+  return (
+    <Pagination
+      className={className}
+      count={pagesCount}
+      page={page}
+      onChange={changeHandler}
+      {...props}
+      variant='outlined'
+      shape='rounded'
+      // Добавляем какстомный item с возможностью роутинга, через компонент Link
+      renderItem={(item) => <PaginationItem component={Link} to={`/todos/${item.page}`} {...item} />}
+    />
+  );
 };
 
 export default CustomPagination;

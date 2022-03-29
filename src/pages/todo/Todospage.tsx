@@ -1,23 +1,29 @@
-import { LinearProgress } from '@mui/material';
+import { LinearProgress, Pagination, PaginationItem } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import CustomPagination from '../../components/pagination/pagination';
 import './style.scss';
+import TodoItem from './TodoItem';
 
-interface ITodo {
+export interface ITodo {
   userId: number;
   id: number;
   title: string;
   completed: boolean;
 }
 
-export default function Todospage() {
+const Todospage: FunctionComponent = () => {
   const MAX_TODOS_COUNT = 200;
   const TODOS_LIMIT = 20;
+  // Получение параметров из строки запроса
+  const pageParams = useParams();
+
   const [todosList, setTodosList] = useState<ITodo[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pagesCount, setPageCount] = useState<number>(0);
+  const [page, setPage] = useState<number>(Number(pageParams?.page || 1));
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,16 +50,14 @@ export default function Todospage() {
       {isLoading ? <LinearProgress /> : ''}
 
       <ul>
-        {todosList.map((todo: ITodo) => {
-          return (
-            <li key={todo.id} className={todo.completed ? 'checked' : ''}>
-              {todo.id}. {todo.title}
-            </li>
-          );
-        })}
+        {todosList.map((todo: ITodo) => (
+          <TodoItem key={todo.id} {...todo} />
+        ))}
       </ul>
 
       {pagesCount > 0 && <CustomPagination className={'pagination'} pagesCount={pagesCount} page={page} setPage={setPage} />}
     </div>
   );
-}
+};
+
+export default Todospage;

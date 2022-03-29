@@ -16,6 +16,7 @@ function App() {
           <Route index element={<Homepage />} />
           <Route path='users' element={<Userspage />} />
           <Route path='todos' element={<Todospage />} />
+          <Route path='todos/:page' element={<Todospage />} />
           <Route path='photos' element={<Photospage />} />
           <Route path='posts' element={<Postspage />} />
           <Route path='*' element={<Notfoundpage />} />
