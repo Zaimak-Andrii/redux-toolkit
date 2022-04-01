@@ -1,27 +1,41 @@
-import { IUser } from './../pages/Userspage';
-import { CaseReducer, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IUser } from './../models/user';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const SLICE_NAME: string = 'users';
 
 // Тип для данных в Slice
 type UserSliceType = {
   usersList: IUser[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
 };
 
 // Начальное состояние, в котором указаны типы данных
 const initialState: UserSliceType = {
   usersList: [],
+  status: 'idle',
+  error: null,
 };
 
-/**  ОбЪявление функции по записи пользователей (полученных с сервера) в список пользователей
- * Для типизирования параметров в функии используется CaseReducer с дженериком где
- * - первый параметр это тип state (тип initialState)
- * - второй параметр это action.payload c типом получаемых данных (PayloadAction<тип_данных>)
- */
-/*
-const addUsers: CaseReducer<UserSliceType, PayloadAction<IUser[]>> = (state, action) => {
-  state.usersList = action.payload;
-};*/
+// Функция получения пользователей от сервера
+export const fetchUsers = createAsyncThunk(
+  // Action name
+  `${SLICE_NAME}/fetchUsers`,
+  // Declare the type your function argument here:
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+
+      // Check for response status
+      if (!response.ok) throw new Error('Server error!');
+
+      // Inferred return type: Promise<IUser>
+      return (await response.json()) as IUser[];
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
 
 const usersSlice = createSlice({
   name: SLICE_NAME,
@@ -32,7 +46,21 @@ const usersSlice = createSlice({
       // Запись списка пользователей, полученных от сервера, в переменную UsersList
       state.usersList = action.payload;
     },
-    //addUsers,
+  },
+  extraReducers: {
+    [fetchUsers.pending.type]: (state) => {
+      state.status = 'loading';
+      state.error = null;
+    },
+    [fetchUsers.fulfilled.type]: (state, action: PayloadAction<IUser[]>) => {
+      state.status = 'succeeded';
+      state.usersList = action.payload;
+      state.error = null;
+    },
+    [fetchUsers.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.status = 'failed';
+      state.error = action.payload;
+    },
   },
 });
 
