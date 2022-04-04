@@ -1,8 +1,9 @@
-import React from 'react';
+import { FunctionComponent, useEffect } from 'react';
 
-type Props = {};
-
-const Photospage = ({}: Props) => {
+const Photospage: FunctionComponent = () => {
+  useEffect(() => {
+    console.log('Render photos page.');
+  }, []);
   return <div>Photospage</div>;
 };
 

@@ -42,9 +42,9 @@ const usersSlice = createSlice({
   initialState: initialState,
   reducers: {
     // Объявление функции внутри
-    addUsers(state, action: PayloadAction<IUser[]>) {
-      // Запись списка пользователей, полученных от сервера, в переменную UsersList
-      state.usersList = action.payload;
+    addUser(state, action: PayloadAction<IUser>) {
+      // Запись списка пользователя, полученного от сервера, в переменную UsersList
+      state.usersList.push(action.payload);
     },
   },
   extraReducers: {
@@ -64,6 +64,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { addUsers } = usersSlice.actions;
+export const { addUser } = usersSlice.actions;
 
 export default usersSlice.reducer;
