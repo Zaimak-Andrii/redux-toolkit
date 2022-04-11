@@ -49,13 +49,16 @@ export const fetchTodos = createAsyncThunk<ITodo[], FetchTodosType, { rejectValu
 export const fetchToggleTodo = createAsyncThunk<void, { id: number }, { rejectValue: string }>(`${SLICE_NAME}/toggleTodo`, async ({ id }, { rejectWithValue, getState, dispatch }) => {
   try {
     // Поиск todo по id в списке дел. Здесь приводим к RootState.
-    const todo = (getState() as RootState).todos.todosList.find((todo: ITodo) => todo.id === id);
+    const state = getState() as RootState;
+    // Поиск todo по id, для изменения значения.
+    const todo = state.todos.todosList.find((todo: ITodo) => todo.id === id);
 
     const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
+      // Запрос на изменение флага completed конкретного todo.
       body: JSON.stringify({ completed: !todo?.completed }),
     });
 
