@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { useAppDispatch } from '../../hook/useAppDispatch';
 import { ITodo } from '../../models/todo';
-import { toggleTodo } from '../../store/todosSlice';
+import { fetchToggleTodo } from '../../store/todosSlice';
 import './style.scss';
 
 const TodoItem: FunctionComponent<ITodo> = ({ id, completed, title }) => {
@@ -9,7 +9,7 @@ const TodoItem: FunctionComponent<ITodo> = ({ id, completed, title }) => {
 
   return (
     <li key={id} className={completed ? 'checked' : ''}>
-      <input type={'checkbox'} checked={completed} onChange={() => dispatch(toggleTodo({ id }))} />
+      <input type={'checkbox'} checked={completed} onChange={() => dispatch(fetchToggleTodo({ id }))} />
       {id}. {title}
     </li>
   );

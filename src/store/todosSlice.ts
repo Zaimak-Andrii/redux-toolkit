@@ -46,30 +46,28 @@ export const fetchTodos = createAsyncThunk<ITodo[], FetchTodosType, { rejectValu
 });
 
 // Toggle todo
-export const toggleTodo = createAsyncThunk<undefined, { id: number }, { rejectValue: string; state: RootState }>(
-  `${SLICE_NAME}/toggleTodo`,
-  async ({ id }, { rejectWithValue, getState, dispatch }) => {
-    try {
-      // Поиск todo по id в списке дел
-      const todo = getState().todos.todosList.find((todo: ITodo) => todo.id === id);
+export const fetchToggleTodo = createAsyncThunk<void, { id: number }, { rejectValue: string }>(`${SLICE_NAME}/toggleTodo`, async ({ id }, { rejectWithValue, getState, dispatch }) => {
+  try {
+    // Поиск todo по id в списке дел. Здесь приводим к RootState.
+    const todo = (getState() as RootState).todos.todosList.find((todo: ITodo) => todo.id === id);
 
-      const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ completed: !todo?.completed }),
-      });
+    const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ completed: !todo?.completed }),
+    });
 
-      // Check for response status
-      if (!response.ok) throw new Error(`Server error! Method toggleTodo. Status code: ${response.status}`);
+    // Check for response status
+    if (!response.ok) throw new Error(`Server error! Method toggleTodo. Status code: ${response.status}`);
 
-      dispatch(toggleComplete({ id }));
-    } catch (error) {
-      return rejectWithValue((error as Error).message);
-    }
+    //Вызываем событие для изменения checkBox
+    dispatch(toggleComplete({ id }));
+  } catch (error) {
+    return rejectWithValue((error as Error).message);
   }
-);
+});
 
 // Создание Slice
 const todosSlice = createSlice({
@@ -86,6 +84,7 @@ const todosSlice = createSlice({
     },
   },
   extraReducers: {
+    //==================FetchTodos=======================
     [fetchTodos.pending.type]: (state) => {
       state.status = 'loading';
       state.error = null;
@@ -96,6 +95,8 @@ const todosSlice = createSlice({
       state.error = null;
     },
     [fetchTodos.rejected.type]: setError,
+    //==================FetchToggleTodos==================
+    [fetchToggleTodo.rejected.type]: setError,
   },
 });
 export const { toggleComplete } = todosSlice.actions;
